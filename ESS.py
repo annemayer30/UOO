@@ -147,15 +147,20 @@ if best_result:
     fig, axes = plt.subplots(3, 1, figsize=(10, 12))
 
     # Battery + SoC
-    axes[0].plot(best_result["thour"], best_result["Ebatt"] / 3.6e6, label="Battery Energy [kWh]", color='tab:blue')
-    ax2 = axes[0].twinx()
-    ax2.plot(best_result["thour"], best_result["SoC"], 'r-', label="SoC (%)")
+    ax1 = plt.subplot(3, 1, 1)
+    ax1.plot(best_result["thour"], best_result["Ebatt"] / 3.6e6,
+               label="Battery Energy [kWh]", color='tab:blue', linewidth=1.5)
+    ax1.set_ylabel("Battery Energy [kWh]", color='tab:blue')
+    ax1.tick_params(axis='y', labelcolor='tab:blue')
+    ax1.set_xlim([1, 24])
+    ax1.grid(True)
+
+    ax2 = ax1.twinx()
+    ax2.plot(best_result["thour"], best_result["SoC"], 'r-', label="SoC (%)", linewidth=1.5)
     ax2.axhspan(SoC_min * 100, SoC_max * 100, color='gray', alpha=0.2)
-    ax2.set_ylim(0, 100)
-    axes[0].set_xlim([1, 24])
-    axes[0].set_ylabel("Battery [kWh]")
-    ax2.set_ylabel("SoC (%)")
-    axes[0].grid(True)
+    ax2.set_ylabel("SoC [%]", color='tab:red')
+    ax2.tick_params(axis='y', labelcolor='tab:red')
+    ax2.set_ylim(0, 100)  # ← 이 줄이 핵심
 
     # Grid Price
     axes[1].plot(best_result["thour"], best_result["Cost"], linewidth=1.5)
