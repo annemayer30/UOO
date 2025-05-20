@@ -8,7 +8,7 @@ import os
 st.title("ESS 최적화 기반 ROI 분석 도구")
 
 # === 로컬 파일 경로 입력 ===
-base_path = "data"  # 예: ./data 폴더에 파일이 저장되어 있다고 가정
+base_path = "https://raw.githubusercontent.com/annemayer30/NOO/main/"  # 예: ./data 폴더에 파일이 저장되어 있다고 가정
 load_path = os.path.join(base_path, "loadData.xlsx")
 cost_path = os.path.join(base_path, "costData.xlsx")
 clear_path = os.path.join(base_path, "clearDay.xlsx")
