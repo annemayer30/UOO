@@ -101,7 +101,7 @@ if all([load_file, cost_file, clear_file, cloudy_file, time_file]):
             SoC = Ebatt / battEnergy * 100
 
            # ESS 도입 전 전체 요금 (ESS 없이 PV만 사용한 경우)
-           LoadCost = np.sum((Pload_raw / 1e3) * Cost)
+            LoadCost = np.sum((Pload_raw / 1e3) * Cost)
 
 # ESS 도입 후 실제 그리드 구매 요금 (ESS + PV)
             GridCost = np.sum((Pgrid / 1e3) * Cost)
@@ -110,13 +110,13 @@ if all([load_file, cost_file, clear_file, cloudy_file, time_file]):
             true_saving = max(0, LoadCost - GridCost)
 
 # ROI 계산
-              annual_saving = true_saving * 365
-              saving_10yr = annual_saving * 10
-              batt_cost = batt_kWh * battery_cost_per_kWh
-              pcs_cost = pcs_kW * pcs_cost_per_kW
-             total_cost = batt_cost + pcs_cost
-             ROI = (saving_10yr - total_cost) / total_cost * 100
-             payback = total_cost / true_saving if true_saving > 0 else np.inf
+            annual_saving = true_saving * 365
+            saving_10yr = annual_saving * 10
+            batt_cost = batt_kWh * battery_cost_per_kWh
+            pcs_cost = pcs_kW * pcs_cost_per_kW
+            total_cost = batt_cost + pcs_cost
+            ROI = (saving_10yr - total_cost) / total_cost * 100
+            payback = total_cost / true_saving if true_saving > 0 else np.inf
 
 
             if ROI > best_ROI:
