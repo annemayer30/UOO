@@ -18,7 +18,7 @@ battery_cost_per_kWh = 400
 pcs_cost_per_kW = 300
 
 # === 엑셀 경로에서 로드 ===
-base_path = "E:/가천대학교/2025-1학기/최적화기반 에너지관리/"
+base_path = "https://raw.githubusercontent.com/annemayer30/UOO/main/"
 load_df = pd.read_excel(base_path + "loadData.xlsx", header=None)
 cost_df = pd.read_excel(base_path + "costData.xlsx", header=None)
 clear_df = pd.read_excel(base_path + "clearDay.xlsx", header=None)
