@@ -3,17 +3,30 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import streamlit as st
 from scipy.optimize import linprog
+import os
 
 st.title("ESS 최적화 기반 ROI 분석 도구")
 
-# === 파일 업로드 ===
-load_file = st.file_uploader("loadData.xlsx 업로드", type=["xlsx"])
-cost_file = st.file_uploader("costData.xlsx 업로드", type=["xlsx"])
-clear_file = st.file_uploader("clearDay.xlsx 업로드", type=["xlsx"])
-cloudy_file = st.file_uploader("cloudyDay.xlsx 업로드", type=["xlsx"])
-time_file = st.file_uploader("time.xlsx 업로드", type=["xlsx"])
+# === 로컬 파일 경로 입력 ===
+base_path = "data"  # 예: ./data 폴더에 파일이 저장되어 있다고 가정
+load_path = os.path.join(base_path, "loadData.xlsx")
+cost_path = os.path.join(base_path, "costData.xlsx")
+clear_path = os.path.join(base_path, "clearDay.xlsx")
+cloudy_path = os.path.join(base_path, "cloudyDay.xlsx")
+time_path = os.path.join(base_path, "time.xlsx")
 
-if all([load_file, cost_file, clear_file, cloudy_file, time_file]):
+try:
+    load_df = pd.read_excel(load_path, header=None)
+    cost_df = pd.read_excel(cost_path, header=None)
+    clear_df = pd.read_excel(clear_path, header=None)
+    cloudy_df = pd.read_excel(cloudy_path, header=None)
+    time = pd.read_excel(time_path, header=None).values.flatten()
+    data_loaded = True
+except Exception as e:
+    st.error(f"파일 로딩 오류: {e}")
+    data_loaded = False
+
+if data_loaded:
     # === 설정 ===
     SoC_max = st.slider("최대 SoC", 0.5, 1.0, 0.8)
     SoC_min = st.slider("최소 SoC", 0.0, 0.5, 0.2)
@@ -27,13 +40,6 @@ if all([load_file, cost_file, clear_file, cloudy_file, time_file]):
     numDays = 1
     battery_cost_per_kWh = 400
     pcs_cost_per_kW = 300
-
-    # === 데이터 로드 ===
-    load_df = pd.read_excel(load_file, header=None)
-    cost_df = pd.read_excel(cost_file, header=None)
-    clear_df = pd.read_excel(clear_file, header=None)
-    cloudy_df = pd.read_excel(cloudy_file, header=None)
-    time = pd.read_excel(time_file, header=None).values.flatten()
 
     dt = timeOptimize * 60
     stepAdjust = int(dt / (time[1] - time[0]))
@@ -169,4 +175,4 @@ if all([load_file, cost_file, clear_file, cloudy_file, time_file]):
         st.pyplot(fig)
 
 else:
-    st.warning("모든 엑셀 파일을 업로드해주세요.")
+    st.warning("모든 데이터 파일이 ./data 폴더에 있어야 합니다.")
