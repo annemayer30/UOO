@@ -38,8 +38,8 @@ if data_loaded:
     cloudy = st.selectbox("날씨", ["맑음", "흐림"])
     timeOptimize = st.number_input("최적화 시간 간격 [min]", value=60)
     numDays = 1
-    battery_cost_per_kWh = 400
-    pcs_cost_per_kW = 300
+    battery_cost_per_kWh = st.number_input("배터리 용량 kWh당 가격($)", value=400)
+    pcs_cost_per_kW = st.number_input("PCS 용량 kWh당 가격($)", value=300)
 
     dt = timeOptimize * 60
     stepAdjust = int(dt / (time[1] - time[0]))
